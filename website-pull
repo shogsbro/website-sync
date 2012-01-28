@@ -17,8 +17,8 @@ do
 	echo "$me: updating $branch branch of $repo..."
 	cd ~/$repo/$branch
 	git fetch -q
-	git merge -q origin/$branch $branch
 	git checkout -qf $branch
+	git merge -q origin/$branch
 done
 
 exit 0
