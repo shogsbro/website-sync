@@ -25,7 +25,11 @@ done
 
 if [ -n "$sync" ]; then
 	echo "$me: syncing branch(es) of $GL_REPO: $sync"
+
+	# 'webhost' is setup in ~/.ssh/config to open correct SSH connection
+	# arguments: <repo path> <branch(es) to sync>
 	ssh webhost $GL_REPO $sync
+
 	exit 0
 fi
 
