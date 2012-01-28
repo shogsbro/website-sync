@@ -6,7 +6,6 @@
 # repo name in $GL_REPO and that stdin contains lines for each pushed 
 # revision.
 
-synced_branches="master|develop|test"
 me=`basename $0`
 
 sync=""
@@ -18,7 +17,7 @@ do
 	if [ "$newrev" == "0000000000000000000000000000000000000000" ]; then continue; fi
 	branch=`echo $ref | cut -d/ -f3`
 	case $branch in
-	"$synced_branches")
+	master|develop|test)
 		sync="$sync$branch "
 		;;
 	*)
