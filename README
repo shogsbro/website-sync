@@ -1,0 +1,18 @@
+website-sync
+============
+
+Scripts used to hook into post-receive chain of gitolite, such that when an
+authorised user pushes certain branches to the repository, the content is
+synced to a (remote) webhost.
+
+website-sync is invoked on the gitolite host, by the post-receive hook
+
+website-pull is invoked on the webserver host, via SSH from website-sync
+
+Assumptions
+-----------
+1) ~/.ssh/config of the gitolite user is setup to forward SSH connections to
+   'webhoist' to the correct server.
+2)  that website-pull is setup in ~/.ssh/authorized_keys to be invoked
+    whenever an incoming SSH connection with the relevant SSH key is received 
+    (as it uses SSH_ORIGINAL_COMMAND to retrieve the arguments).

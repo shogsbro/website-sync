@@ -1,0 +1,24 @@
+#!/bin/bash -e
+
+me=`basename $0`@`hostname -s`
+
+# Set the script arguments based on the SSH passed args
+set -- junk $SSH_ORIGINAL_COMMAND
+shift
+##DEBUG echo $me $@ '('$# args')'
+
+[ $# -lt 2 ] && echo "$me: Expecting at least two arguments: repo branch(es)" && exit 1
+repo=$1
+shift
+branches=$@
+
+for branch in $branches
+do
+	echo "$me: updating $branch branch of $repo..."
+	cd ~/$repo/$branch
+	git fetch -q
+	git merge -q origin/$branch $branch
+	git checkout -qf $branch
+done
+
+exit 0
