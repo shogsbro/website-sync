@@ -1,0 +1,32 @@
+#!/bin/bash -e
+
+# This script handles pushing of specific branches to the website host
+me=`basename $0`
+
+sync=""
+while read oldrev newrev ref
+do
+	#echo "$oldrev $newrev $ref"
+
+	# new branch?
+	if [ "$oldrev" == "0000000000000000000000000000000000000000" ]; then continue; fi
+	# branch deleted?
+	if [ "$newrev" == "0000000000000000000000000000000000000000" ]; then continue; fi
+	branch=`echo $ref | cut -d/ -f3`
+	case $branch in
+	master|develop|test)
+		sync="$sync$branch "
+		;;
+	*)
+		echo "$me: branch $branch in $GL_REPO not setup for autosync - ignoring"
+		;;
+	esac
+done
+
+if [ -n "$sync" ]; then
+	echo "$me: syncing branch(es) of $GL_REPO: $sync"
+	ssh webhost $GL_REPO $sync
+	exit 0
+fi
+
+exit 1
