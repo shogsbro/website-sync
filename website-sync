@@ -6,10 +6,8 @@ me=`basename $0`
 sync=""
 while read oldrev newrev ref
 do
-	#echo "$oldrev $newrev $ref"
-
 	# new branch?
-	if [ "$oldrev" == "0000000000000000000000000000000000000000" ]; then continue; fi
+	#if [ "$oldrev" == "0000000000000000000000000000000000000000" ]; then continue; fi
 	# branch deleted?
 	if [ "$newrev" == "0000000000000000000000000000000000000000" ]; then continue; fi
 	branch=`echo $ref | cut -d/ -f3`
