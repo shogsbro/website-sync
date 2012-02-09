@@ -19,6 +19,9 @@ do
 	git fetch -q
 	git checkout -qf $branch
 	git merge -q origin/$branch
+
+	# Touch flag file to trigger UWSGI reload
+	touch ~/$repo/reload-$branch
 done
 
 exit 0
