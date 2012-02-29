@@ -17,7 +17,7 @@ do
 	if [ "$newrev" == "0000000000000000000000000000000000000000" ]; then continue; fi
 	branch=`echo $ref | cut -d/ -f3`
 	case $branch in
-	master|develop|test)
+	master|test)
 		sync="$sync$branch "
 		;;
 	*)
