@@ -11,17 +11,15 @@ shift
 repo=$1
 shift
 branches=$@
+updater=~/$repo
 
-for branch in $branches
-do
-	echo "$me: updating $branch branch of $repo..."
-	cd ~/$repo/$branch
-	git fetch -q
-	git checkout -qf $branch
-	git merge -q origin/$branch
-
-	# Touch flag file to trigger UWSGI reload
-	touch ~/$repo/reload-$branch
-done
+# If an executable file exist at ~/<repo>, run it for each branch with the branch as the argument
+if [ -x $updater ]; then
+	for branch in $branches
+	do
+		echo "$me: executing $updater for branch $branch"
+		$updater $branch || true
+	done
+fi
 
 exit 0
