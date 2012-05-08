@@ -13,8 +13,18 @@ Assumptions
 -----------
 1) ~/.ssh/config of the gitolite user is setup to forward SSH connections to
    'webhost' to the correct server.
-2) that website-pull is setup in ~/.ssh/authorized_keys to be invoked
-   whenever an incoming SSH connection with the relevant SSH key is received 
-   (as it uses SSH_ORIGINAL_COMMAND to retrieve the arguments).
-3) that an executable script exists on the webserver host relative to the login
-   path, with the name of the repository.
+
+2) website-pull is setup in ~/.ssh/authorized_keys to be invoked whenever an
+   incoming SSH connection with the relevant SSH key is received (as it uses
+   SSH_ORIGINAL_COMMAND to retrieve the arguments).
+
+3) that an executable script exists on the webserver host relative to the
+   login path, with the name of the repository. This will likely need to do:
+   $ git fetch -q --all
+   $ git --bare update-server-info
+   $ export GIT_WORK_TREE=/srv/...
+   $ git reset -q --hard $branch
+   $ git checkout -qf $branch
+
+4) Git repo's on the webhost have been mirror-cloned using:
+   git clone --mirror <remote git url>
